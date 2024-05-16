@@ -60,6 +60,13 @@ options:
 
      ![OBS](docs/obs.png)
 
+## Useful Links
+
+- https://github.com/sandbox-pokhara/ms21xx-firmware-research
+- https://mega.nz/file/HfpAnIzB#UY7eqQpnL4wJM2C5Lne6Y_5GpIF37_AqLIG4hosE0sk
+- https://github.com/BertoldVdb/ms-tools
+- https://www.entechtaiwan.com/util/moninfo.shtm
+
 ## License
 
 This project is licensed under the terms of the MIT license.
