@@ -18,6 +18,9 @@ classifiers = ["Programming Language :: Python :: 3"]
 Homepage = "https://github.com/sandbox-pokhara/ms21xx-firmware"
 Issues = "https://github.com/sandbox-pokhara/ms21xx-firmware/issues"
 
+[project.scripts]
+ms21xx-firmware = "ms21xx_firmware.generate:main"
+
 [tool.setuptools]
 include-package-data = true
 
