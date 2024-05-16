@@ -80,7 +80,45 @@ def main():
 
     # data generation
     if args.chip == "ms2109":
-        raise NotImplementedError
+        with open(MS2109, "rb") as fp:
+            data = fp.read()
+
+        # convert to string for easier manipulation
+        data = data.hex()
+
+        # modify the firmware data
+        video_data = args.video.encode()
+        video_len = (len(video_data) + 1).to_bytes(1)
+        audio_data = args.audio.encode()
+        audio_len = (len(audio_data) + 1).to_bytes(1)
+
+        data = replace_at_index(data, 0x06, args.vid)
+        data = replace_at_index(data, 0x08, args.pid)
+        data = replace_at_index(data, 0x0C, args.firmware_version)
+        data = replace_at_index(data, 0x10, video_len.hex())
+        data = replace_at_index(data, 0x11, video_data.hex())
+        data = replace_at_index(data, 0x20, audio_len.hex())
+        data = replace_at_index(data, 0x21, audio_data.hex())
+        if args.edid:
+            edid_idx = data.index("00ffffffffffff00") // 2
+            data = replace_at_index(data, edid_idx, args.edid)
+
+        if args.serial:
+            raise NotImplementedError("Serial is not supported in ms2109 yet.")
+
+        # change the data back to bytes
+        data = bytes.fromhex(data)
+
+        # replace the checksum of firmware with correct checksum
+        header = data[2:48]
+        code = data[48:-4]
+        header_checksum = checksum_as_bytes(header)
+        code_checksum = checksum_as_bytes(code)
+        data = data[:-4] + header_checksum + code_checksum
+
+        # write the generated firmware
+        with open(args.output, "wb") as fp:
+            fp.write(data)
 
     if args.chip == "ms2130":
         with open(MS2130, "rb") as fp:
