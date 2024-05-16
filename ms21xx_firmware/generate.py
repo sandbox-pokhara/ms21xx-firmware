@@ -153,7 +153,7 @@ def main():
         data = bytes.fromhex(data)
 
         # replace the checksum of firmware with correct checksum
-        header = data[2:10] + data[16:48]
+        header = data[2:11] + data[16:48]
         code = data[48:-4]
         header_checksum = checksum_as_bytes(header)
         code_checksum = checksum_as_bytes(code)
